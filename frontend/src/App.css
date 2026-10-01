@@ -1,0 +1,27 @@
+/* Marshmallow Button Styles */
+.marshmallow-btn {
+  background: #FDFBF7; /* Fluffy white/cream */
+  color: #333;
+  border: 2px solid #E2D9CC;
+  border-radius: 20px; /* Rounded pillow/marshmallow shape */
+  padding: 10px 22px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #D0C4B4, 0 5px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+/* Hover / Toasted State */
+.marshmallow-btn:hover,
+.marshmallow-btn.active {
+  background: linear-gradient(135deg, #D98A5B 0%, #B86B35 100%); /* Toasted golden brown */
+  color: #FFF;
+  border-color: #9C5527;
+  box-shadow: 0 4px 0 #7A3F1A, 0 5px 10px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+.marshmallow-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #7A3F1A;
+}
