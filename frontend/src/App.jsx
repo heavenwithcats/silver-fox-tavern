@@ -1,107 +1,232 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-import FoxLoader from './FoxLoading';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { supabase } from './supabaseClient';
+import FoxLoading from './FoxLoading';
+import Lost from './pages/lost';
+import Login from './pages/login';
+import SignUp from './pages/signUp';
+import Recipes from './pages/recipes';
+import Home from './pages/home';
+import Recipe from './pages/recipe';
+import Stories from './pages/stories';
+import Story from './pages/story';
+import Guides from './pages/guides';
+import Guide from './pages/guide';
+import TravelersSack from './pages/travellersSack';
+import Profile from './pages/profile';
+import './App.css';
 
 function App() {
-  const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(true)
-useEffect(() => {
-    // 1. Record the exact millisecond time when the app starts
-    const startTime = Date.now();
-    const MINIMUM_HOLD_TIME = 5000; // 5000ms = 5 full seconds! Change this to whatever you want.
+  const [session, setSession] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    // 2. Fetch recipes from your backend
-    fetch('http://localhost:5000/api/recipes')
-      .then((res) => res.json())
-      .then((data) => {
-        setRecipes(data);
+  useEffect(() => {
+    // 1. Check current active session on mount
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
 
-        // 3. Calculate how long the fetch actually took
-        const elapsedTime = Date.now() - startTime;
-        
-        // 4. Calculate how much remaining time we need to wait to hit our target
-        const remainingTime = Math.max(0, MINIMUM_HOLD_TIME - elapsedTime);
+    // 2. Listen for auth changes (login, logout, token refreshes)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      setLoading(false);
 
-        // 5. Wait out the remaining time before turning off the loader
-        setTimeout(() => {
-          setLoading(false);
-        }, remainingTime);
-      })
-      .catch((err) => {
-        console.error('Error fetching recipes:', err);
-        // Even on error, hold for the minimum time so it doesn't flash awkwardly
-        setTimeout(() => setLoading(false), MINIMUM_HOLD_TIME);
-      });
+      // If signed in via OAuth/magic link and there's a hash token in the URL, clean it up!
+      if (event === 'SIGNED_IN' && window.location.hash) {
+        window.history.replaceState(null, '', '/home');
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  return (
-  <div className="app-container">
-      <header className="main-header">
-        <h1 className="header-title">The Silver Fox Tavern</h1>
-        <p className="header-subtitle">
-          Cozy recipes for warm hearts and warm hearths.
-        </p>
-      </header>
-
-      <main className="content-area">
-        {loading ? (
-          <FoxLoader scale={3.2}/>
-        ) : recipes.length === 0 ? (
-          <div className="empty-card">
-            <p className="empty-title">No recipes in the database yet!</p>
-            <p className="empty-subtitle">
-              Once we decide on cats vs. foxes and insert our recipes, they will appear right here.
-            </p>
-          </div>
-        ) : (
-          <div className="recipe-grid">
-{recipes.map((recipe) => {
-  // 1. Convert the ingredient array into a search string
-  // Example: ['2 cups flour', '1 tsp cinnamon'] -> "flour cinnamon"
-  const ingredientSearchQuery = recipe.ingredients 
-    ? recipe.ingredients.map(item => item.replace(/[\d\/\.\,\-\s]+(cups?|tsps?|tbsps?|oz|lbs?|grams?)?/gi, '').trim()).join(' ')
-    : recipe.title;
-
-  const instacartUrl = `https://www.instacart.com/store/s?k=${encodeURIComponent(ingredientSearchQuery)}`;
+  if (loading) {
+    return (
+      <div className="loading-tavern">
+        <FoxLoading duration={1000}>
+          <div>Warming up the tavern hearth...</div>
+        </FoxLoading>
+      </div>
+    );
+  }
 
   return (
-    <div key={recipe.id} className="recipe-card">
-      <div className="card-header">
-        <span className="category-badge">{recipe.category}</span>
-        <span className="rating-stars">
-          {'⭐'.repeat(recipe.cozy_rating || 5)}
-        </span>
-      </div>
-      
-      <h2 className="recipe-title">{recipe.title}</h2>
-      <p className="recipe-description">{recipe.description}</p>
+    <Router>
+      <Routes>
+        {/* Root Route: If logged in, redirect to /home. Otherwise show Lost/Landing page */}
+        <Route 
+          path="/" 
+          element={
+            session ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <FoxLoading duration={2000}>
+                <Lost />
+              </FoxLoading>
+            )
+          } 
+        />
 
-      {/* Render the ingredients list */}
-      <div className="ingredients-section">
-        <h3>Cozy Ingredients:</h3>
-        <ul>
-          {recipe.ingredients && recipe.ingredients.map((item, idx) => (
-            <li key={idx}>{item}</li>
-          ))}
-        </ul>
-      </div>
+        {/* Login Route */}
+        <Route 
+          path="/login" 
+          element={
+            session ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <FoxLoading duration={2000}>
+                <Login />
+              </FoxLoading>
+            )
+          } 
+        />
 
-      <a 
-        href={instacartUrl}
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="instacart-btn"
-      >
-        🛒 Shop Recipe Ingredients on Instacart
-      </a>
-    </div>
+        {/* Sign Up Route */}
+        <Route 
+          path="/signUp" 
+          element={
+            session ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <FoxLoading duration={2000}>
+                <SignUp />
+              </FoxLoading>
+            )
+          } 
+        />
+
+        {/* Home Route */}
+        <Route 
+          path="/home" 
+          element={
+            session ? (
+              <FoxLoading duration={2000}>
+                <Home />
+              </FoxLoading>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          } 
+        /> 
+
+        {/* Recipes Route */}
+        <Route 
+          path="/recipes" 
+          element={
+            session ? (
+              <FoxLoading duration={2000}>
+                <Recipes />
+              </FoxLoading>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          } 
+        />
+
+        {/* Recipe Detail Route */}
+        <Route 
+          path="/recipes/:id" 
+          element={
+            session ? (
+              <FoxLoading duration={2000}>
+                <Recipe />
+              </FoxLoading>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          } 
+        />
+
+        {/* Stories Route */}
+        <Route 
+          path="/stories" 
+          element={
+            session ? (
+              <FoxLoading duration={2000}>
+                <Stories />
+              </FoxLoading>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          } 
+        />
+
+        {/* Story Detail Route */}
+        <Route 
+          path="/stories/:id" 
+          element={
+            session ? (
+              <FoxLoading duration={2000}>
+                <Story />
+              </FoxLoading>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          } 
+        />
+
+        {/* Guides Route */}
+        <Route 
+          path="/guides" 
+          element={
+            session ? (
+              <FoxLoading duration={2000}>
+                <Guides />
+              </FoxLoading>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          } 
+        />
+
+        {/* Guide Detail Route */}
+        <Route 
+          path="/guides/:id" 
+          element={
+            session ? (
+              <FoxLoading duration={2000}>
+                <Guide />
+              </FoxLoading>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          } 
+        />
+
+      <Route 
+          path="/sack" 
+          element={
+            session ? (
+              <FoxLoading duration={2000}>
+                <TravelersSack />
+              </FoxLoading>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          } 
+        />
+      <Route 
+          path="/profile" 
+          element={
+            session ? (
+              <FoxLoading duration={2000}>
+                <Profile />
+              </FoxLoading>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          } 
+        />
+
+        {/* Fallback Catch-All */}
+        <Route 
+          path="*" 
+          element={<Navigate to={session ? "/home" : "/"} replace />} 
+        />
+      </Routes>
+    </Router>
   );
-})}
-          </div>
-        )}
-      </main>
-    </div>
-  )
 }
 
-export default App
+export default App;

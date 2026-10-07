@@ -1,6 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Festive&family=Quicksand:wght@400;500;600;700&display=swap');
+
+:root {
+   background: #8ca0af;
+}
+
+/* Force #root and main containers to fill 100% of the screen */
+#root, .app, .App {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  background: #8ca0af;
+}
+html, body, #root, .App {
+  width: 100%;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden; /* Stops any horizontal scrollbar */
+}
+.App-header{
+max-width: 700px; /* Constrains line length so it doesn't span widescreen */
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  color: #000e40;
+}
+
+
+
+/* Ensure background covers html and body completely */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: #8ca0af;
+}
+
+/* Ensure box sizes include borders/padding */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 400px;
+  width: 100%;
+  margin: 20px auto;
+  text-align: left;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #1c2b36;
+  font-size: 0.95rem;
+}
+
+.form-group input {
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 2px solid #E2D9CC;
+  background: #ffffff;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}.tavern-heading-line {
+  font-family: 'Festive', cursive;
+  position: relative;
+  color: #f4e8c1;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.festive-poof-heading {
+  font-family: 'Festive', cursive;
+  
+  /* 1. FIX POSITION SHIFT: keeps element aligned with surrounding text */
+  display: inline-block;
+  vertical-align: top; 
+  
+  /* 2. FIX BOTTOM CUTOFF: give more room on bottom (0.5em) than top (0.3em) */
+  padding: 0.3em 0.2em 0.5em 0.2em;
+  margin: -0.3em -0.2em -0.5em -0.2em; /* match negative margins to padding */
+  line-height: 1.4; /* gives tall script loops full headroom */
+
+  /* Base styling */
+  color: #3d2314;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              filter 0.35s ease;
+  will-change: transform, filter;
+}
+
+.festive-poof-heading:hover {
+  transform: translateY(-4px) scale(1.04);
+  
+  background: linear-gradient(
+    90deg, 
+    #331400 0%, 
+    #d08b02 50%, 
+    #331400 100%
+  );
+  
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  filter: drop-shadow(0px 4px 8px rgba(212, 143, 56, 0.35));
+}
+.form-group input:focus {
+  border-color: #B86B35;
+  box-shadow: 0 0 0 3px rgba(184, 107, 53, 0.2);
+}
+
+.auth-submit-btn {
+  width: 100%;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Error banner style */
+.auth-error {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid #f87171;
+}
+.marshmallow-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px; /* Automatic spacing between all buttons in the row */
+  margin: 16px 0;
+}
 /* Marshmallow Button Styles */
 .marshmallow-btn {
-  background: #FDFBF7; /* Fluffy white/cream */
+ font-family: "Festive", cursive; /* Uses Festive font for button text */
+  font-size: 1.2rem;
+  display: inline-block; /* Essential so links honor padding & margins */
+
+  text-decoration: none;
+  background: #fff3dc; /* Fluffy white/cream */
   color: #333;
   border: 2px solid #E2D9CC;
   border-radius: 20px; /* Rounded pillow/marshmallow shape */
@@ -14,14 +172,310 @@
 /* Hover / Toasted State */
 .marshmallow-btn:hover,
 .marshmallow-btn.active {
-  background: linear-gradient(135deg, #D98A5B 0%, #B86B35 100%); /* Toasted golden brown */
+  background: linear-gradient(135deg, #f3c66c 0%, #B86B35 100%); /* Toasted golden brown */
   color: #FFF;
-  border-color: #9C5527;
-  box-shadow: 0 4px 0 #7A3F1A, 0 5px 10px rgba(0,0,0,0.2);
+  border-color: rgb(245, 187, 88);
+  box-shadow: 0 4px 0 rgb(245, 187, 88), 0 5px 10px rgba(0,0,0,0.2);
   transform: translateY(-2px);
 }
 
 .marshmallow-btn:active {
   transform: translateY(2px);
-  box-shadow: 0 1px 0 #7A3F1A;
+  box-shadow: 0 1px 0 #da9c30;
+}
+
+
+.quicksand-fox {
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.festive-regular {
+  font-family: "Festive", cursive;
+  font-weight: 400;
+  font-style: normal;
+}/* 1. Main Navbar Layout */
+.tavern-navbar {
+  /* Force full screen width regardless of parent padding */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+
+  /* Layout spacing */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 3rem;
+  box-sizing: border-box;
+
+  /* Solid dark wood top background */
+  background-color: #646eb6; 
+} .tavern-navbar::after {
+  content: '';
+  position: absolute;
+  bottom: -24px; /* Extends 24px below the navbar */
+  left: 0;
+  width: 100%;
+  height: 24px;
+  
+  /* Blends from dark brown into completely transparent */
+  background: linear-gradient(
+    to bottom, 
+    #646eb6 0%, 
+    rgba(95, 93, 159, 0.546) 40%, 
+    rgba(35, 25, 23, 0) 100%
+  );
+  
+  pointer-events: none; /* Allows clicks to pass through to elements underneath */
+}
+/* Container for the home page content */
+.home-container {
+  max-width: 900px; /* Limits how wide the text stretches */
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Individual story/section spacing */
+.home-story-section {
+  margin: 3.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem; /* Space between the image, heading, and text */
+}
+
+/* Paragraph styling for readability */
+.story-paragraph {
+  max-width: 700px;
+  font-size: 1.15rem;
+  line-height: 1.8; /* Gives nice vertical breathing room between lines */
+  margin: 1rem auto;
+  color: #e9daa5; /* Soft parchment color for readability */
+}
+
+/* Section Headings */
+.home-story-section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  color: #ffe17e;
+}
+
+/* Preview card box for specials / placeholders */
+.preview-card-box {
+  background-color: rgba(42, 31, 29, 0.6);
+  border: 1px solid rgba(139, 107, 74, 0.4);
+  border-radius: 12px;
+  padding: 1.25rem 2rem;
+  margin: 1.5rem auto;
+  max-width: 650px;
+}
+
+.preview-text {
+  color: #321d47;
+  line-height: 1.6;
+}
+
+/* 2. Logo Styling */
+.nav-brand .nav-logo {
+  height: 70px;
+  width: auto;
+  display: block;
+}
+
+/* 3. Center Navigation Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* Spacing between top-level links */
+}
+
+.nav-item, 
+.nav-links a {
+  color: #f4e8c1; /* Light parchment text color */
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+/* 4. Dropdown Container Fix */
+.nav-dropdown {
+  position: relative; /* Anchor for absolute dropdown positioning */
+  display: inline-block;
+}
+
+/* 5. Hide Dropdown Menu by Default */
+.dropdown-menu {
+  display: none; /* Keeps all category links hidden until hover */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #888fd7;
+  min-width: 220px;
+  padding: 0.75rem 0;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  z-index: 1001;
+}
+
+/* Show Dropdown on Hover */
+.nav-dropdown:hover .dropdown-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dropdown Sub-links Styling */
+.dropdown-menu a {
+  padding: 0.5rem 1rem;
+  color: #f4e8c1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dropdown-menu a:hover {
+  background-color: #5c4033;
+}
+
+/* 6. Profile Section on Far Right */
+.nav-profile .profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: #f4e8c1;
+}
+
+.nav-profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #5c4033;
+}
+
+/* Recipe Grid Layout */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Individual Recipe Card */
+.recipe-card {
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid #d4af37; /* Warm golden tavern border */
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Category Badge inside Card */
+.recipe-badge {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #5c4033;
+  background: #f4e8c1;
+  padding: 4px 10px;
+  border-radius: 20px;
+  align-self: flex-start;
+  margin-bottom: 12px;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Individual Recipe Card */
+.story-card {
+  background: rgba(103, 72, 128, 0.85);
+  border: 2px solid #2d2204; /* Warm golden tavern border */
+  color:#d7c1f4;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.story-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Category Badge inside Card */
+.story-badge {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #34335c;
+  background: #ceabfb;
+  padding: 4px 10px;
+  border-radius: 20px;
+  align-self: flex-start;
+  margin-bottom: 12px;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Individual Recipe Card */
+.guide-card {
+  background: rgba(72, 82, 128, 0.85);
+  border: 2px solid #2c003e; /* Warm golden tavern border */
+  color:#100a32;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.guide-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Category Badge inside Card */
+.guide-badge {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #010048;
+  background: #9d94e3;
+  padding: 4px 10px;
+  border-radius: 20px;
+  align-self: flex-start;
+  margin-bottom: 12px;
 }

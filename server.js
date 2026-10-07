@@ -1,27 +1,25 @@
 import express from 'express';
 import cors from 'cors';
-import db from './db.js';
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+dotenv.config();
+
 const app = express();
+const PORT = process.env.PORT || 5000;
+
 app.use(cors());
 app.use(express.json());
 
-// Test route to verify server works
+// Initialize Supabase client for backend use (if using service role or standard client)
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'Whiskers & Warmth backend is live! 🐱✨' });
+  res.json({ status: 'The Silver Fox Tavern server is warm and running 🌲' });
 });
 
-// Route to fetch recipes from PostgreSQL
-app.get('/api/recipes', async (req, res) => {
-  try {
-    const result = await db.query('SELECT * FROM recipes ORDER BY id ASC');
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Database query failed' });
-  }
-});
-
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🐾 Whiskers 'n Warmth backend running on http://localhost:${PORT}`);
+  console.log(`Tavern server running hot on port ${PORT}`);
 });
