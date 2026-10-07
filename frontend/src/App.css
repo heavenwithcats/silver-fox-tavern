@@ -479,3 +479,44 @@ html, body {
   align-self: flex-start;
   margin-bottom: 12px;
 }
+
+@media (max-width: 768px) {
+  /* Stack the navigation bar elements vertically */
+  .tavern-navbar {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 15px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* Make recipe, story, and guide grids stack in a single column */
+  .recipe-grid, 
+  .story-grid, 
+  .guide-grid {
+    grid-template-columns: 1fr !important;
+    padding: 10px 15px !important;
+  }
+
+  /* Adjust container paddings and widths for mobile screens */
+  .App-header, 
+  .home-container {
+    width: 95% !important;
+    padding: 1rem !important;
+  }
+
+  /* Scale down large headings on mobile */
+  .home-story-section h2 {
+    font-size: 1.6rem !important;
+  }
+
+  /* Ensure auth forms and inputs scale nicely */
+  .auth-form {
+    width: 90% !important;
+    padding: 0 10px;
+  }
+}
